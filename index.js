@@ -4,60 +4,14 @@ let driverMarker;
 let intervalId;
 let directionsService;
 let directionsDisplay;
-let steps = 100; // Number of steps for the simulation
-let step = 0; // Current step of the simulation
-
-// Function to simulate driving from driver location to customer location
-/*function simulateDriving() {
-  if (step >= steps) {
-    clearInterval(intervalId); // Stop the simulation when completed
-    return;
-  }
-
-  // Calculate the interpolation factor based on the current step
-  const factor = step / steps;
-
-  // Interpolate the driver's location towards the customer's location
-  const driverLat = driverMarker.getPosition().lat();
-  const driverLng = driverMarker.getPosition().lng();
-  
-  const customerLat = customerMarker.getPosition().lat();
-  const customerLng = customerMarker.getPosition().lng();
-  const newLat = driverLat + (customerLat - driverLat) * factor;
-  const newLng = driverLng + (customerLng - driverLng) * factor;
-  const newLocation = new google.maps.LatLng(newLat, newLng);
-
-  // Update the driver marker on the map
-  customerMarker.setPosition(newLocation);
-
-  // Calculate and display the directions from driver to customer
-//  calculateAndDisplayDirections(newLocation, customerMarker.getPosition());
-
-  step++; // Increment the step
-}*/
 
 
- //Finding the intial Location
- 
 
-// Function to update customer location with live coordinates
-function updateCustomerLocation(position) {
-  const { latitude, longitude } = position.coords;
-  const currentLocation = new google.maps.LatLng(latitude, longitude);
 
-  // Update the customer marker on the map
-  console.log("Update location")
-  customerMarker.setPosition(currentLocation);
-  console.log("Real "+customerMarker.lat + customerMarker.ln)
-
-}
-
-// Function to handle errors in retrieving live location
 function handleLocationError(error) {
   console.log('Error occurred while retrieving location:', error);
 }
 
-// Start tracking button click handler
 document.getElementById('startButton').addEventListener('click', () => {
  
   const map = new google.maps.Map(document.getElementById('map'), {
@@ -119,9 +73,7 @@ document.getElementById('startButton').addEventListener('click', () => {
         infoWindow.setContent('<b>You are here.</b>');
         map.setCenter(pos);
       },
-      function() {
-        handleLocationError(true, infoWindow, map.getCenter());
-      },
+      handleLocationError,
       {
         enableHighAccuracy: true
       }
